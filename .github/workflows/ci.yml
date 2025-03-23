@@ -38,3 +38,12 @@ jobs:
 
       - name: Run Tests
         run: ./mvnw test
+
+      - name: Run Checkstyle
+        run: ./mvnw checkstyle:checkstyle
+
+      - name: Run SpotBugs
+        run: ./mvnw spotbugs:check
+
+      - name: JaCoCo Coverage Report
+        run: ./mvnw jacoco:report
