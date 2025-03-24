@@ -26,4 +26,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/article-indexer-scheduler:${{ github.sha }}
+          tags: wilfredo.castaneda.guerrero/article-indexer-scheduler:${{ github.sha }}
