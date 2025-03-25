@@ -5,8 +5,10 @@ package com.articleindexing.article_indexer_scheduler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class ArticleIndexerSchedulerApplication {
     /**
      *  Main application method.

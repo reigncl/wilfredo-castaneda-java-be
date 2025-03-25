@@ -57,6 +57,7 @@ public final class ArticleServiceImpl implements ArticleService {
      * "https://hn.algolia.com/api/v1/search_by_date?query=java".
      */
     @Override
+
     public void fetchAndSaveArticles() {
         String url =
                 "https://hn.algolia.com/api/v1/search_by_date?query=java";
