@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity(name = "articles")
 @Data
 @Getter
@@ -53,5 +55,18 @@ public class Article {
     /**
      * The date of the article.
      */
-    private String createdAt;
+    private LocalDateTime createdAt;
+
+    /**
+     * Indicates if the article is deleted (soft delete).
+     */
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
+    /**
+     * Marks the article as deleted.
+     */
+    public void markAsDeleted() {
+        this.isDeleted = true;
+    }
 }

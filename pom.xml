@@ -64,7 +64,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-checkstyle-plugin</artifactId>
@@ -136,8 +135,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<!-- Ruta al archivo checkstyle.xml -->
-					<configLocation>src/main/resources/checkstyle.xml</configLocation>
+					<configLocation>src/main/resources/config/checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 				</configuration>
 				<executions>
@@ -152,6 +150,11 @@
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>4.7.3.4</version>
+				<configuration>
+					<includeFilterFile>src/main/resources/config/spotbugs-exclude.xml</includeFilterFile>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
