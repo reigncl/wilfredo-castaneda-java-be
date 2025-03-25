@@ -2,15 +2,16 @@ package com.articleindexing.article_indexer_scheduler.repository;
 
 import com.articleindexing.article_indexer_scheduler.model.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     /**
-     * Finds an article by its title.
+     * Checks if an article exists in the database by its objectID.
      *
-     * @param title the title of the article to search for
-     * @return an Optional containing the article if found, otherwise empty
+     * @param objectID the unique identifier of the article.
+     * @return true if the article exists, false otherwise.
      */
-    Optional<Article> findByTitle(String title);
+    boolean existsByObjectID(String objectID);
 }
+

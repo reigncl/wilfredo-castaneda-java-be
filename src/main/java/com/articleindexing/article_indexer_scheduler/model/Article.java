@@ -1,20 +1,20 @@
 package com.articleindexing.article_indexer_scheduler.model;
 
+
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Table(name = "articles")
+@Entity(name = "articles")
+@Data
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,31 +22,36 @@ import java.time.LocalDateTime;
 @Builder
 public class Article {
     /**
-     * Represents the unique identifier for the article.
+     * Unique identifier for the article object.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
+     * Unique identifier for the article object.
+     */
+    @Column(unique = true)
+    private String objectID;
+
+    /**
      * Represents the title of the article.
+     * This title serves as the main headline for the article.
      */
     private String title;
 
     /**
-     * Represents the url of the article.
-     */
-    private String url;
-
-    /**
-     * Represents the author of the article.
+     * The author of the article.
      */
     private String author;
 
     /**
-     * Indicates the publication date of the article.
+     * The url of the article.
      */
-    @Column(name = "published_at")
-    private LocalDateTime createdAt;
-}
+    private String url;
 
+    /**
+     * The date of the article.
+     */
+    private String createdAt;
+}
