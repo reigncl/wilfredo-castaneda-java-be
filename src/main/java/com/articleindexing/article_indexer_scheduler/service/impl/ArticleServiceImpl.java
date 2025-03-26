@@ -5,9 +5,15 @@ import com.articleindexing.article_indexer_scheduler.model.Article;
 import com.articleindexing.article_indexer_scheduler.repository.ArticleRepository;
 import com.articleindexing.article_indexer_scheduler.service.ArticleService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +63,6 @@ public final class ArticleServiceImpl implements ArticleService {
      * "https://hn.algolia.com/api/v1/search_by_date?query=java".
      */
     @Override
-
     public void fetchAndSaveArticles() {
         String url =
                 "https://hn.algolia.com/api/v1/search_by_date?query=java";
@@ -74,11 +79,24 @@ public final class ArticleServiceImpl implements ArticleService {
                             .title(hit.getTitle())
                             .author(hit.getAuthor())
                             .url(hit.getUrl())
-                            .createdAt(hit.getCreatedAt())
+                            .createdAt(parseCreatedAt(hit.getCreatedAt()))
                             .build())
                     .collect(Collectors.toList());
             articleRepository.saveAll(articles);
             System.out.println("Saved Articles: " + articles.size());
+        }
+    }
+
+    private LocalDateTime parseCreatedAt(final String createdAt) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter
+                    .ofPattern("yyyy-MM-dd'T'HH:mm:ssX");
+            // Convierte a ZonedDateTime y luego a LocalDateTime
+            return ZonedDateTime.parse(createdAt, formatter).toLocalDateTime();
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException(
+                    "Invalid date format: " + createdAt, e
+            );
         }
     }
 
@@ -92,6 +110,36 @@ public final class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> getAllArticles() {
         return articleRepository.findAll();
+    }
+
+    @Override
+    public Page<Article> getArticles(
+            final String author,
+            final String title,
+            final String month,
+            final Pageable pageable
+    ) {
+        if (author != null) {
+            return articleRepository.findByAuthor(author, pageable);
+        }
+        if (title != null) {
+            return articleRepository.findByTitle(title, pageable);
+        }
+        if (month != null) {
+            return articleRepository.findByMonth(month, pageable);
+        }
+        return articleRepository.findAllActive(pageable);
+    }
+
+    @Override
+    public void deleteArticle(final Long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Article not found: " + id
+                        ));
+        article.setDeleted(true);
+        articleRepository.save(article);
     }
 }
 

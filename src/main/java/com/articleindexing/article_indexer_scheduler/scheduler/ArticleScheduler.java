@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ArticleScheduler {
+public final class ArticleScheduler {
 
     /**
      * Service responsible for handling the logic of articles,
@@ -17,10 +17,14 @@ public class ArticleScheduler {
     /**
      * Scheduler responsible for periodically fetching and storing articles.
      *
-     * @param articleServiceParam the service used to fetch and save articles
+     * @param service the service used to fetch and save articles
      */
-    public ArticleScheduler(final ArticleService articleServiceParam) {
-        this.articleService = articleServiceParam;
+    @SuppressWarnings("EI_EXPOSE_REP2")
+    public ArticleScheduler(final ArticleService service) {
+        if (service == null) {
+            throw new IllegalArgumentException("Service cannot be null");
+        }
+        this.articleService = service;
     }
 
     /**

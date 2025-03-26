@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Class name="com.articleindexing.article_indexer_scheduler.scheduler.ArticleScheduler" />
+        <Method name="ArticleScheduler" />
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Priority value="2" />
+    </Match>
+</FindBugsFilter>
