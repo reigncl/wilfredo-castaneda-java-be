@@ -40,7 +40,8 @@ public interface ArticleService {
      * Marks an article as deleted to avoid it reappearing in future results.
      *
      * @param id the ID of the article to delete.
+     * @return
      */
-    void deleteArticle(Long id);
+    boolean deleteArticle(Long id);
 }
 

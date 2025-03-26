@@ -132,7 +132,7 @@ public final class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void deleteArticle(final Long id) {
+    public boolean deleteArticle(final Long id) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() ->
                         new IllegalArgumentException(
@@ -140,6 +140,7 @@ public final class ArticleServiceImpl implements ArticleService {
                         ));
         article.setDeleted(true);
         articleRepository.save(article);
+        return false;
     }
 }
 
