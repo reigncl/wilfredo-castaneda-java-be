@@ -6,6 +6,12 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+/**
+ * Service interface for managing articles.
+ * <p>
+ * Provides methods for fetching articles, retrieving stored articles,
+ * and performing operations such as pagination, filtering, and deletion.
+ */
 public interface ArticleService {
     /**
      * Fetches articles from an external API
@@ -17,7 +23,6 @@ public interface ArticleService {
 
     /**
      * Retrieves all articles stored in the database.
-     *
      * @return a list of Article objects containing
      * the details of all stored articles.
      */
@@ -37,10 +42,16 @@ public interface ArticleService {
                               String month, Pageable pageable);
 
     /**
-     * Marks an article as deleted to avoid it reappearing in future results.
+     * Marks an article as deleted to avoid it reappearing
+     * in future results.
+     * <p>
+     * This method ensures soft deletion of the article
+     * and prevents its retrieval
+     * in subsequent queries.
      *
-     * @param id the ID of the article to delete.
-     * @return
+     * @param id the ID of the article to delete
+     * @return {@code true} if the article was successfully marked
+     * as deleted, {@code false} otherwise
      */
     boolean deleteArticle(Long id);
 }
